@@ -251,9 +251,9 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 
 	var sigs oci.Signatures
 	sigRef := co.SignatureRef
-	fmt.Println("IS THIS EN EMPTY STRING?", sigRef)
 	if sigRef == "" {
 		sigs, err = se.Signatures()
+		fmt.Println("\n\ncosign/verify.go 255 se.Signatures()", "se:", se, "result:", sigs)
 		if err != nil {
 			return nil, false, err
 		}
@@ -264,7 +264,7 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 		}
 	}
 	result, bundleVerified, err := verifySignatures(ctx, sigs, h, co) // USED
-	fmt.Println("\n\ncosign/verify.go 269: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result, "BundleVerified", bundleVerified)
+	fmt.Println("\n\ncosign/verify.go 266: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result, "BundleVerified", bundleVerified)
 	return result, bundleVerified, err
 }
 
