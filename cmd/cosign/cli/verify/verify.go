@@ -118,10 +118,10 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 	var pubKey signature.Verifier
 	switch {
 	case keyRef != "":
-		fmt.Println("DOING sigs.PublicKeyFromKeyRefWithHashAlgo")
+		fmt.Println(keyRef)
 		pubKey, err = sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm)
-		fmt.Println(pubKey)
-		fmt.Println(err)
+		// fmt.Println(pubKey)
+		// fmt.Println(err)
 		if err != nil {
 			return errors.Wrap(err, "loading public key")
 		}
@@ -130,6 +130,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			defer pkcs11Key.Close()
 		}
 	case c.Sk:
+		fmt.Println(c.Sk)
 		sk, err := pivkey.GetKeyWithSlot(c.Slot)
 		if err != nil {
 			return errors.Wrap(err, "opening piv token")
@@ -140,6 +141,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			return errors.Wrap(err, "initializing piv token verifier")
 		}
 	case certRef != "":
+		fmt.Println(certRef)
 		cert, err := loadCertFromFileOrURL(c.CertRef)
 		if err != nil {
 			return err
@@ -152,6 +154,8 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 	co.SigVerifier = pubKey
 
 	for _, img := range images {
+		fmt.Println(img)
+		// fmt.Printf(c.LocalImage)
 		if c.LocalImage {
 			verified, bundleVerified, err := cosign.VerifyLocalImageSignatures(ctx, img, co)
 			if err != nil {
