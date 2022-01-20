@@ -255,19 +255,20 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	fmt.Println("cosign/verify.go 255:", sigRef)
 	if sigRef == "" {
 		sigs, err = se.Signatures()
+		fmt.Println("cosign/verify.go 257:", sigs)
+		fmt.Println("cosign/verify.go 257:", err)
 		if err != nil {
 			return nil, false, err
 		}
 	} else {
 		sigs, err = loadSignatureFromFile(sigRef, signedImgRef, co)
-		fmt.Println("cosign/verify.go 265:", sigs)
 		if err != nil {
 			return nil, false, err
 		}
 	}
 
 	fmt.Println("cosign/verify.go 269: verifySignatures")
-	return verifySignatures(ctx, sigs, h, co)
+	return verifySignatures(ctx, sigs, h, co) // USED
 }
 
 // VerifyLocalImageSignatures verifies signatures from a saved, local image, without any network calls, returning the verified signatures.
@@ -323,6 +324,8 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 	if err != nil {
 		return nil, false, err
 	}
+
+	fmt.Println("verifySignatures sl 328:", sl)
 
 	validationErrs := []string{}
 
