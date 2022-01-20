@@ -347,8 +347,8 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 
 	validationErrs := []string{}
 
-	for _, sig := range sl {
-
+	for i, sig := range sl {
+		fmt.Println(i)
 		verified, err := VerifyImageSignature(ctx, sig, h, co)
 		bundleVerified = bundleVerified || verified
 		if err != nil {
