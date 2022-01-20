@@ -170,11 +170,11 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 				return errors.Wrapf(err, "resolving attachment type %s for image %s", c.Attachment, img)
 			}
 
-			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co) // USED
-			fmt.Println("verify.go 177:", verified, bundleVerified, err)
-			if err != nil {
-				return err
-			}
+			// verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co) // USED
+			// fmt.Println("verify.go 177:", verified, bundleVerified)
+			// if err != nil {
+			// 	return err
+			// }
 
 			// PrintVerificationHeader(ref.Name(), co, bundleVerified)
 			// PrintVerification(ref.Name(), verified, c.Output)
