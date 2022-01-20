@@ -161,58 +161,56 @@ func PublicKeyFromKeyRef(ctx context.Context, keyRef string) (signature.Verifier
 }
 
 func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlgorithm crypto.Hash) (signature.Verifier, error) {
-	if strings.HasPrefix(keyRef, kubernetes.KeyReference) {
-		s, err := kubernetes.GetKeyPairSecret(ctx, keyRef)
-		if err != nil {
-			return nil, err
-		}
+	// if strings.HasPrefix(keyRef, kubernetes.KeyReference) {
+	// 	s, err := kubernetes.GetKeyPairSecret(ctx, keyRef)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-		if len(s.Data) > 0 {
-			return LoadPublicKeyRaw(s.Data["cosign.pub"], hashAlgorithm)
-		}
-	}
+	// 	if len(s.Data) > 0 {
+	// 		return LoadPublicKeyRaw(s.Data["cosign.pub"], hashAlgorithm)
+	// 	}
+	// }
 
-	if strings.HasPrefix(keyRef, pkcs11key.ReferenceScheme) {
-		pkcs11UriConfig := pkcs11key.NewPkcs11UriConfig()
-		err := pkcs11UriConfig.Parse(keyRef)
-		if err != nil {
-			return nil, errors.Wrap(err, "parsing pkcs11 uri")
-		}
+	// if strings.HasPrefix(keyRef, pkcs11key.ReferenceScheme) {
+	// 	pkcs11UriConfig := pkcs11key.NewPkcs11UriConfig()
+	// 	err := pkcs11UriConfig.Parse(keyRef)
+	// 	if err != nil {
+	// 		return nil, errors.Wrap(err, "parsing pkcs11 uri")
+	// 	}
 
-		// Since we'll be verifying a signature, we do not need to set askForPinIsNeeded to true
-		// because we only need access to the public key.
-		sk, err := pkcs11key.GetKeyWithURIConfig(pkcs11UriConfig, false)
-		if err != nil {
-			return nil, errors.Wrap(err, "opening pkcs11 token key")
-		}
+	// 	// Since we'll be verifying a signature, we do not need to set askForPinIsNeeded to true
+	// 	// because we only need access to the public key.
+	// 	sk, err := pkcs11key.GetKeyWithURIConfig(pkcs11UriConfig, false)
+	// 	if err != nil {
+	// 		return nil, errors.Wrap(err, "opening pkcs11 token key")
+	// 	}
 
-		v, err := sk.Verifier()
-		if err != nil {
-			return nil, errors.Wrap(err, "initializing pkcs11 token verifier")
-		}
+	// 	v, err := sk.Verifier()
+	// 	if err != nil {
+	// 		return nil, errors.Wrap(err, "initializing pkcs11 token verifier")
+	// 	}
 
-		return v, nil
-	} else if strings.HasPrefix(keyRef, gitlab.ReferenceScheme) {
-		split := strings.Split(keyRef, "://")
+	// 	return v, nil
+	// } else if strings.HasPrefix(keyRef, gitlab.ReferenceScheme) {
+	// 	split := strings.Split(keyRef, "://")
 
-		if len(split) < 2 {
-			return nil, errors.New("could not parse scheme, use <scheme>://<ref> format")
-		}
+	// 	if len(split) < 2 {
+	// 		return nil, errors.New("could not parse scheme, use <scheme>://<ref> format")
+	// 	}
 
-		provider, targetRef := split[0], split[1]
+	// 	provider, targetRef := split[0], split[1]
 
-		pubKey, err := git.GetProvider(provider).GetSecret(ctx, targetRef, "COSIGN_PUBLIC_KEY")
-		if err != nil {
-			return nil, err
-		}
+	// 	pubKey, err := git.GetProvider(provider).GetSecret(ctx, targetRef, "COSIGN_PUBLIC_KEY")
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-		if len(pubKey) > 0 {
-			return LoadPublicKeyRaw([]byte(pubKey), hashAlgorithm)
-		}
-	}
-	publicKey, err := VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
-	fmt.Println("\n\nVerifierForKeyRef(ctx, keyRef, hashAlgorithm)", "ctx:", ctx, "keyRef:", keyRef, "hashAlgorithm:", hashAlgorithm, "result:", publicKey)
-	return publicKey, err
+	// 	if len(pubKey) > 0 {
+	// 		return LoadPublicKeyRaw([]byte(pubKey), hashAlgorithm)
+	// 	}
+	// }
+	return VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
 }
 
 func PublicKeyPem(key signature.PublicKeyProvider, pkOpts ...signature.PublicKeyOption) ([]byte, error) {
