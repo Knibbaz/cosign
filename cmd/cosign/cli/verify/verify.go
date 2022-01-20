@@ -171,13 +171,13 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			}
 
 			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co) // USED
-			fmt.Println("verify.go 177:", verified)
+			fmt.Println("verify.go 177:", verified, bundleVerified)
 			if err != nil {
 				return err
 			}
 
-			PrintVerificationHeader(ref.Name(), co, bundleVerified)
-			PrintVerification(ref.Name(), verified, c.Output)
+			// PrintVerificationHeader(ref.Name(), co, bundleVerified)
+			// PrintVerification(ref.Name(), verified, c.Output)
 		}
 	}
 
