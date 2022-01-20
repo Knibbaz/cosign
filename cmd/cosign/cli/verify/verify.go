@@ -135,7 +135,6 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		}
 
 	case c.Sk:
-		fmt.Println("c.Sk", c.Sk)
 		sk, err := pivkey.GetKeyWithSlot(c.Slot)
 		if err != nil {
 			return errors.Wrap(err, "opening piv token")
@@ -146,7 +145,6 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			return errors.Wrap(err, "initializing piv token verifier")
 		}
 	case certRef != "":
-		fmt.Println("certRef", certRef)
 		cert, err := loadCertFromFileOrURL(c.CertRef)
 		if err != nil {
 			return err
@@ -157,16 +155,10 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		}
 	}
 	co.SigVerifier = pubKey
-	fmt.Println("co.SigVerifier", co.SigVerifier)
 
 	for _, img := range images {
-		fmt.Println("img", img)
 		if c.LocalImage {
-			fmt.Println("c.LocalImage", c.LocalImage)
 			verified, bundleVerified, err := cosign.VerifyLocalImageSignatures(ctx, img, co)
-			fmt.Println("verified:", verified)
-			fmt.Println("bundleVerified:", bundleVerified)
-			fmt.Println("err:", err)
 			if err != nil {
 				return err
 			}
@@ -175,6 +167,8 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		} else {
 			fmt.Println("???????????ELSE???????????")
 			ref, err := name.ParseReference(img)
+			fmt.Println("REF:", ref)
+			fmt.Println("ERR:", err)
 			if err != nil {
 				return errors.Wrap(err, "parsing reference")
 			}
@@ -184,6 +178,9 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			}
 
 			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co)
+			fmt.Println("verified:", verified)
+			fmt.Println("bundleVerified:", bundleVerified)
+			fmt.Println("ERR:", err)
 			if err != nil {
 				return err
 			}
