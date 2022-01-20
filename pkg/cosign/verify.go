@@ -256,7 +256,6 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	if sigRef == "" {
 		sigs, err = se.Signatures()
 		fmt.Println("cosign/verify.go 257:", sigs)
-		fmt.Println("cosign/verify.go 257:", err)
 		if err != nil {
 			return nil, false, err
 		}
@@ -266,9 +265,9 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 			return nil, false, err
 		}
 	}
-
-	fmt.Println("cosign/verify.go 269: verifySignatures")
-	return verifySignatures(ctx, sigs, h, co) // USED
+	result, bundleVerified, err := verifySignatures(ctx, sigs, h, co) // USED
+	fmt.Println("cosign/verify.go 269: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result, "BundleVerified", bundleVerified)
+	return result, bundleVerified, err
 }
 
 // VerifyLocalImageSignatures verifies signatures from a saved, local image, without any network calls, returning the verified signatures.
