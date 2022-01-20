@@ -349,15 +349,16 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 
 	for _, sig := range sl {
 		verified, err := VerifyImageSignature(ctx, sig, h, co)
-		fmt.Println("\n\n VerifyImageSignature(ctx, sig, h, co)", verified)
+		fmt.Println("\n\nVerifyImageSignature(ctx, sig, h, co)", verified)
 		bundleVerified = bundleVerified || verified
+		fmt.Println(err)
 		if err != nil {
 			validationErrs = append(validationErrs, err.Error())
 			continue
 		}
 
 		// Phew, we made it.
-		fmt.Println("\n\n cosign/verify.go 359: Checking matching signatures")
+		fmt.Println("\n\ncosign/verify.go 359: Checking matching signatures")
 		fmt.Println(append(checkedSignatures, sig))
 		fmt.Println(checkedSignatures)
 		fmt.Println(sig)
@@ -372,8 +373,6 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 // VerifyImageSignature verifies a signature
 func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co *CheckOpts) (bundleVerified bool, err error) {
 	verifier := co.SigVerifier
-	fmt.Println("VerifyImageSignature")
-	fmt.Println(verifier)
 	if verifier == nil {
 		// If we don't have a public key to check against, we can try a root cert.
 		cert, err := sig.Cert()
@@ -395,10 +394,7 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 
 	// We can't check annotations without claims, both require unmarshalling the payload.
 	if co.ClaimVerifier != nil {
-		fmt.Println(co.ClaimVerifier)
-		fmt.Println("co.ClaimVerifier")
 		if err := co.ClaimVerifier(sig, h, co.Annotations); err != nil { // USED
-			fmt.Println("HIJ KOMT HIER")
 			return bundleVerified, err
 		}
 	}
@@ -419,8 +415,6 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 
 		return bundleVerified, tlogValidateCertificate(ctx, co.RekorClient, sig)
 	}
-	fmt.Println("HIJ KOMT HIER 5")
-	fmt.Println(bundleVerified)
 	return bundleVerified, nil
 }
 
