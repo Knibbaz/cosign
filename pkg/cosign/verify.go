@@ -278,6 +278,13 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	}
 	result, bundleVerified, err := verifySignatures(ctx, sigs, h, co) // USED
 	fmt.Println("\n\ncosign/verify.go 266: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result, "BundleVerified", bundleVerified)
+
+	result2, bundleVerified, err := verifySignatures(ctx, sigs, h, co) // USED
+	fmt.Println("\n\ncosign/verify.go 266: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result2, "BundleVerified", bundleVerified)
+
+	result3, bundleVerified, err := verifySignatures(ctx, sigs, h, co) // USED
+	fmt.Println("\n\ncosign/verify.go 266: verifySignatures(ctx, sigs, h, co)", "ctx:", ctx, "sigs:", sigs, "h:", h, "co:", co, "RESULT:", result3, "BundleVerified", bundleVerified)
+
 	return result, bundleVerified, err
 }
 
@@ -348,6 +355,9 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		}
 
 		// Phew, we made it.
+		fmt.Println(append(checkedSignatures, sig))
+		fmt.Println(checkedSignatures)
+		fmt.Println(sig)
 		checkedSignatures = append(checkedSignatures, sig)
 	}
 	if len(checkedSignatures) == 0 {
