@@ -245,17 +245,14 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	// TODO(mattmoor): We could implement recursive verification if we just wrapped
 	// most of the logic below here in a call to mutate.Map
 	se, h, err := getSignedEntity(signedImgRef, co.RegistryClientOpts)
-	fmt.Println("cosign/verify.go 247:", se)
 	if err != nil {
 		return nil, false, err
 	}
 
 	var sigs oci.Signatures
 	sigRef := co.SignatureRef
-	fmt.Println("cosign/verify.go 255:", sigRef)
 	if sigRef == "" {
 		sigs, err = se.Signatures()
-		fmt.Println("cosign/verify.go 257:", sigs)
 		if err != nil {
 			return nil, false, err
 		}
