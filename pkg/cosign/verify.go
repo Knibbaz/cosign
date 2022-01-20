@@ -396,6 +396,7 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 	// We can't check annotations without claims, both require unmarshalling the payload.
 	if co.ClaimVerifier != nil {
 		fmt.Println(co.ClaimVerifier)
+		fmt.Println("co.ClaimVerifier")
 		if err := co.ClaimVerifier(sig, h, co.Annotations); err != nil { // USED
 			return bundleVerified, err
 		}
