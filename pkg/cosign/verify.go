@@ -402,6 +402,8 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 		}
 	}
 
+	fmt.Println("HIJ KOMT HIER")
+
 	bundleVerified, err = VerifyBundle(ctx, sig)
 	if err != nil && co.RekorClient == nil {
 		return false, errors.Wrap(err, "unable to verify bundle")
