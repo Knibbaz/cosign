@@ -170,6 +170,7 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 	}
 
 	if strings.HasPrefix(keyRef, pkcs11key.ReferenceScheme) {
+		fmt.Println("HAS PREFIX")
 		pkcs11UriConfig := pkcs11key.NewPkcs11UriConfig()
 		err := pkcs11UriConfig.Parse(keyRef)
 		if err != nil {
@@ -190,6 +191,7 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 
 		return v, nil
 	} else if strings.HasPrefix(keyRef, gitlab.ReferenceScheme) {
+		fmt.Println("HAS PREFIX 2")
 		split := strings.Split(keyRef, "://")
 
 		if len(split) < 2 {
@@ -207,7 +209,7 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 			return LoadPublicKeyRaw([]byte(pubKey), hashAlgorithm)
 		}
 	}
-
+	fmt.Println("HAS NO PREFIX")
 	return VerifierForKeyRef(ctx, keyRef, hashAlgorithm)
 }
 

@@ -175,7 +175,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			}
 
 			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co) // USED
-			fmt.Println("verified:", verified)
+			fmt.Println("VerifyImageSignatures:", verified)
 			if err != nil {
 				return err
 			}
