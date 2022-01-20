@@ -45,12 +45,12 @@ func LoadPublicKey(ctx context.Context, keyRef string) (verifier signature.Verif
 // verifier using the provided hash algorithm
 func VerifierForKeyRef(ctx context.Context, keyRef string, hashAlgorithm crypto.Hash) (verifier signature.Verifier, err error) {
 	// The key could be plaintext, in a file, at a URL, or in KMS.
-	if kmsKey, err := kms.Get(ctx, keyRef, hashAlgorithm); err == nil {
-		// KMS specified
-		return kmsKey, nil
-	}
+	// if kmsKey, err := kms.Get(ctx, keyRef, hashAlgorithm); err == nil {
+	// 	// KMS specified
+	// 	return kmsKey, nil
+	// }
 
-	raw, err := blob.LoadFileOrURL(keyRef)
+	raw, err := blob.LoadFileOrURL(keyRef) // USED
 	if err != nil {
 		return nil, err
 	}
@@ -63,9 +63,7 @@ func VerifierForKeyRef(ctx context.Context, keyRef string, hashAlgorithm crypto.
 		return nil, errors.Wrap(err, "pem to public key")
 	}
 
-	result, err := signature.LoadVerifier(pubKey, hashAlgorithm)
-	fmt.Println("\n\nsignature.LoadVerifier(pubKey, hashAlgorithm)", "pubKey:", pubKey, "hashAlgorithm:", hashAlgorithm, "result:", result)
-	return result, err
+	return signature.LoadVerifier(pubKey, hashAlgorithm) // USED
 }
 
 func loadKey(keyPath string, pf cosign.PassFunc) (signature.SignerVerifier, error) {
