@@ -353,6 +353,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		if err != nil {
 			fmt.Println("HIJ KOMT HIER")
 			validationErrs = append(validationErrs, err.Error())
+			fmt.Println(validationErrs)
 			continue
 		}
 
