@@ -25,12 +25,12 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/sigstore/cosign/pkg/blob"
-	"github.com/sigstore/cosign/pkg/cosign"
-	"github.com/sigstore/cosign/pkg/cosign/git"
-	"github.com/sigstore/cosign/pkg/cosign/git/gitlab"
-	"github.com/sigstore/cosign/pkg/cosign/kubernetes"
-	"github.com/sigstore/cosign/pkg/cosign/pkcs11key"
+	"github.com/Knibbaz/cosign/pkg/blob"
+	"github.com/Knibbaz/cosign/pkg/cosign"
+	"github.com/Knibbaz/cosign/pkg/cosign/git"
+	"github.com/Knibbaz/cosign/pkg/cosign/git/gitlab"
+	"github.com/Knibbaz/cosign/pkg/cosign/kubernetes"
+	"github.com/Knibbaz/cosign/pkg/cosign/pkcs11key"
 	"github.com/sigstore/sigstore/pkg/cryptoutils"
 	"github.com/sigstore/sigstore/pkg/signature"
 	"github.com/sigstore/sigstore/pkg/signature/kms"
