@@ -351,15 +351,14 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		verified, err := VerifyImageSignature(ctx, sig, h, co)
 		bundleVerified = bundleVerified || verified
 		if err != nil {
-			fmt.Println("HIJ KOMT HIER")
 			validationErrs = append(validationErrs, err.Error())
-			fmt.Println(validationErrs)
 			continue
 		}
 
 		// Phew, we made it.
 		fmt.Println("\n\ncosign/verify.go 359: Checking matching signatures")
 		fmt.Println(append(checkedSignatures, sig))
+		fmt.Println(sigs.Get())
 		fmt.Println(checkedSignatures)
 		fmt.Println(sig)
 		checkedSignatures = append(checkedSignatures, sig)
