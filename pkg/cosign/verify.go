@@ -349,6 +349,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 
 	for _, sig := range sl {
 		verified, err := VerifyImageSignature(ctx, sig, h, co)
+		fmt.Println("\n\n VerifyImageSignature(ctx, sig, h, co)", verified)
 		bundleVerified = bundleVerified || verified
 		if err != nil {
 			validationErrs = append(validationErrs, err.Error())
@@ -356,7 +357,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		}
 
 		// Phew, we made it.
-		fmt.Println("\n\nChecking matching signatures")
+		fmt.Println("\n\n cosign/verify.go 359: Checking matching signatures")
 		fmt.Println(append(checkedSignatures, sig))
 		fmt.Println(checkedSignatures)
 		fmt.Println(sig)
