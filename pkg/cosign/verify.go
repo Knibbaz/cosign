@@ -405,17 +405,13 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 
 	bundleVerified, err = VerifyBundle(ctx, sig)
 	if err != nil && co.RekorClient == nil {
-		fmt.Println("HIJ KOMT HIER 2")
 		return false, errors.Wrap(err, "unable to verify bundle")
 	}
 
 	if !bundleVerified && co.RekorClient != nil {
-		fmt.Println("HIJ KOMT HIER 3")
 		if co.SigVerifier != nil {
-			fmt.Println("HIJ KOMT HIER 4")
 			pub, err := co.SigVerifier.PublicKey(co.PKOpts...)
 			if err != nil {
-				fmt.Println("HIJ KOMT HIER 5")
 				return bundleVerified, err
 			}
 			return bundleVerified, tlogValidatePublicKey(ctx, co.RekorClient, pub, sig)
@@ -424,6 +420,7 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 		return bundleVerified, tlogValidateCertificate(ctx, co.RekorClient, sig)
 	}
 	fmt.Println("HIJ KOMT HIER 5")
+	fmt.Println(bundleVerified)
 	return bundleVerified, nil
 }
 
