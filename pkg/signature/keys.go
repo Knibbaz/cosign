@@ -211,7 +211,9 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 			return LoadPublicKeyRaw([]byte(pubKey), hashAlgorithm)
 		}
 	}
-	return VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
+	publicKey, err := VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
+	fmt.Println("publicKey back from VerifierForKeyRef:", publicKey)
+	return publicKey, err
 }
 
 func PublicKeyPem(key signature.PublicKeyProvider, pkOpts ...signature.PublicKeyOption) ([]byte, error) {
