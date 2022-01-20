@@ -66,6 +66,7 @@ type VerifyCommand struct {
 
 // Exec runs the verification command
 func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
+	fmt.Println("HELLO WORLD")
 	if len(images) == 0 {
 		return flag.ErrHelp
 	}
@@ -110,6 +111,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		co.RootCerts = fulcio.GetRoots()
 	}
 	keyRef := c.KeyRef
+	fmt.Println(keyRef)
 	certRef := c.CertRef
 
 	// Keys are optional!
