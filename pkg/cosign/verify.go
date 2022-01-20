@@ -341,6 +341,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 	if err != nil {
 		return nil, false, err
 	}
+	fmt.Println(sl)
 
 	fmt.Println("verifySignatures sl 328:", sl)
 
