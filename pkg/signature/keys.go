@@ -211,7 +211,7 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 		}
 	}
 	publicKey, err := VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
-	fmt.Println("publicKey back from VerifierForKeyRef:", publicKey)
+	fmt.Println("\n\nVerifierForKeyRef(ctx, keyRef, hashAlgorithm)", ctx, "ctx", "keyRef", keyRef, "hashAlgorithm", hashAlgorithm, "result:", publicKey)
 	return publicKey, err
 }
 
