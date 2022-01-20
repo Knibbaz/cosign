@@ -355,6 +355,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		}
 
 		// Phew, we made it.
+		fmt.Println("\n\nChecking matching signatures")
 		fmt.Println(append(checkedSignatures, sig))
 		fmt.Println(checkedSignatures)
 		fmt.Println(sig)
