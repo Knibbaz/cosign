@@ -372,6 +372,8 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 // VerifyImageSignature verifies a signature
 func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co *CheckOpts) (bundleVerified bool, err error) {
 	verifier := co.SigVerifier
+	fmt.Println("VerifyImageSignature")
+	fmt.Println(verifier)
 	if verifier == nil {
 		// If we don't have a public key to check against, we can try a root cert.
 		cert, err := sig.Cert()
@@ -387,6 +389,7 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 		}
 	}
 
+	fmt.Println(verifyOCISignature(ctx, verifier, sig))
 	if err := verifyOCISignature(ctx, verifier, sig); err != nil {
 		return bundleVerified, err
 	}
