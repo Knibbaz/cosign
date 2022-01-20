@@ -306,6 +306,7 @@ func VerifyLocalImageSignatures(ctx context.Context, path string, co *CheckOpts)
 
 	sigs, err := se.Signatures()
 	fmt.Println("sigs: ", sigs)
+	fmt.Println("err: ", err)
 	if err != nil {
 		return nil, false, err
 	}
@@ -322,7 +323,8 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 	validationErrs := []string{}
 
 	for _, sig := range sl {
-		verified, err := VerifyImageSignature(ctx, sig, h, co)
+		verified, err := VerifyImageSignature(ctx, sig, h, co) // USED
+		fmt.Println("verified: ", verified)
 		bundleVerified = bundleVerified || verified
 		if err != nil {
 			validationErrs = append(validationErrs, err.Error())
@@ -362,8 +364,7 @@ func VerifyImageSignature(ctx context.Context, sig oci.Signature, h v1.Hash, co 
 
 	// We can't check annotations without claims, both require unmarshalling the payload.
 	if co.ClaimVerifier != nil {
-		fmt.Println("THIS HAPPENS")
-		if err := co.ClaimVerifier(sig, h, co.Annotations); err != nil {
+		if err := co.ClaimVerifier(sig, h, co.Annotations); err != nil { // USED
 			return bundleVerified, err
 		}
 	}
