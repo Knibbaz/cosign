@@ -363,7 +363,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 		fmt.Println(sig)
 		checkedSignatures = append(checkedSignatures, sig)
 	}
-	fmt.Println(checkedSignatures)
+	fmt.Println("checkedSignatures", checkedSignatures)
 	if len(checkedSignatures) == 0 {
 		return nil, false, fmt.Errorf("no matching signatures:\n%s", strings.Join(validationErrs, "\n "))
 	}
