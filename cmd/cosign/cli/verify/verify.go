@@ -118,12 +118,8 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 	var pubKey signature.Verifier
 	switch {
 	case keyRef != "":
-		fmt.Println("keyRef", keyRef)
-		fmt.Println("ctx", ctx)
-		fmt.Println("c.HashAlgorithm", c.HashAlgorithm)
 		pubKey, err = sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm) // USED
-
-		fmt.Println("PubKey: ", pubKey)
+		fmt.Println("sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm)", "ctx", ctx, "keyRef", keyRef, "c.HashAlgorithm", c.HashAlgorithm, "result", pubKey)
 
 		if err != nil {
 			return errors.Wrap(err, "loading public key")

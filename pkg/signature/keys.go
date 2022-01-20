@@ -57,15 +57,13 @@ func VerifierForKeyRef(ctx context.Context, keyRef string, hashAlgorithm crypto.
 
 	// PEM encoded file.
 	pubKey, err := cryptoutils.UnmarshalPEMToPublicKey(raw) // USED
-	fmt.Println("RAW: ", raw)
-	fmt.Println("PUBKEY: ", pubKey)
+	fmt.Println("cryptoutils.UnmarshalPEMToPublicKey(raw)", "raw", raw, "result", pubKey)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "pem to public key")
 	}
 
-	fmt.Println("pubKey", pubKey)
-	fmt.Println("hashAlgorithm", hashAlgorithm)
+	fmt.Println("signature.LoadVerifier(pubKey, hashAlgorithm)", "pubKey", pubKey, "hashAlgorithm", hashAlgorithm)
 	return signature.LoadVerifier(pubKey, hashAlgorithm)
 }
 
