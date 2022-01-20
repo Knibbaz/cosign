@@ -121,7 +121,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		fmt.Println("keyRef", keyRef)
 		fmt.Println("ctx", ctx)
 		fmt.Println("c.HashAlgorithm", c.HashAlgorithm)
-		pubKey, err = sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm)
+		pubKey, err = sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm) // USED
 
 		fmt.Println("PubKey: ", pubKey)
 
@@ -165,10 +165,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			PrintVerificationHeader(img, co, bundleVerified)
 			PrintVerification(img, verified, c.Output)
 		} else {
-			fmt.Println("???????????ELSE???????????")
 			ref, err := name.ParseReference(img)
-			fmt.Println("REF:", ref)
-			fmt.Println("ERR:", err)
 			if err != nil {
 				return errors.Wrap(err, "parsing reference")
 			}
@@ -177,10 +174,8 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 				return errors.Wrapf(err, "resolving attachment type %s for image %s", c.Attachment, img)
 			}
 
-			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co)
+			verified, bundleVerified, err := cosign.VerifyImageSignatures(ctx, ref, co) // USED
 			fmt.Println("verified:", verified)
-			fmt.Println("bundleVerified:", bundleVerified)
-			fmt.Println("ERR:", err)
 			if err != nil {
 				return err
 			}
