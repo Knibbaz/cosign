@@ -173,6 +173,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			PrintVerificationHeader(img, co, bundleVerified)
 			PrintVerification(img, verified, c.Output)
 		} else {
+			fmt.Println("???????????ELSE???????????")
 			ref, err := name.ParseReference(img)
 			if err != nil {
 				return errors.Wrap(err, "parsing reference")
