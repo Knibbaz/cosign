@@ -119,7 +119,7 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 	switch {
 	case keyRef != "":
 		pubKey, err = sigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm) // USED
-		fmt.Println("\nsigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm)", "ctx:", ctx, "keyRef:", keyRef, "c.HashAlgorithm:", c.HashAlgorithm, "result:", pubKey)
+		fmt.Println("\n\nsigs.PublicKeyFromKeyRefWithHashAlgo(ctx, keyRef, c.HashAlgorithm)", "ctx:", ctx, "keyRef:", keyRef, "c.HashAlgorithm:", c.HashAlgorithm, "result:", pubKey)
 
 		if err != nil {
 			return errors.Wrap(err, "loading public key")
