@@ -134,8 +134,6 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 			defer pkcs11Key.Close()
 		}
 
-		fmt.Println(c.Sk)
-
 	case c.Sk:
 		fmt.Println("c.Sk", c.Sk)
 		sk, err := pivkey.GetKeyWithSlot(c.Slot)
@@ -159,12 +157,16 @@ func (c *VerifyCommand) Exec(ctx context.Context, images []string) (err error) {
 		}
 	}
 	co.SigVerifier = pubKey
+	fmt.Println("co.SigVerifier", co.SigVerifier)
 
 	for _, img := range images {
 		fmt.Println("img", img)
-		// fmt.Printf(c.LocalImage)
 		if c.LocalImage {
+			fmt.Println("c.LocalImage", c.LocalImage)
 			verified, bundleVerified, err := cosign.VerifyLocalImageSignatures(ctx, img, co)
+			fmt.Println("verified:", verified)
+			fmt.Println("bundleVerified:", bundleVerified)
+			fmt.Println("err:", err)
 			if err != nil {
 				return err
 			}
