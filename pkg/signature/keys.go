@@ -25,12 +25,12 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Knibbaz/cosign/pkg/blob"
-	"github.com/Knibbaz/cosign/pkg/cosign"
-	"github.com/Knibbaz/cosign/pkg/cosign/git"
-	"github.com/Knibbaz/cosign/pkg/cosign/git/gitlab"
-	"github.com/Knibbaz/cosign/pkg/cosign/kubernetes"
-	"github.com/Knibbaz/cosign/pkg/cosign/pkcs11key"
+	"github.com/sigstore/cosign/pkg/blob"
+	"github.com/sigstore/cosign/pkg/cosign"
+	"github.com/sigstore/cosign/pkg/cosign/git"
+	"github.com/sigstore/cosign/pkg/cosign/git/gitlab"
+	"github.com/sigstore/cosign/pkg/cosign/kubernetes"
+	"github.com/sigstore/cosign/pkg/cosign/pkcs11key"
 	"github.com/sigstore/sigstore/pkg/cryptoutils"
 	"github.com/sigstore/sigstore/pkg/signature"
 	"github.com/sigstore/sigstore/pkg/signature/kms"
@@ -46,24 +46,23 @@ func LoadPublicKey(ctx context.Context, keyRef string) (verifier signature.Verif
 func VerifierForKeyRef(ctx context.Context, keyRef string, hashAlgorithm crypto.Hash) (verifier signature.Verifier, err error) {
 	// The key could be plaintext, in a file, at a URL, or in KMS.
 	if kmsKey, err := kms.Get(ctx, keyRef, hashAlgorithm); err == nil {
-		fmt.Println("keys.go 48:", kmsKey)
 		// KMS specified
 		return kmsKey, nil
 	}
 
 	raw, err := blob.LoadFileOrURL(keyRef)
-	fmt.Println("keys.go 54:", raw)
 	if err != nil {
 		return nil, err
 	}
 
 	// PEM encoded file.
 	pubKey, err := cryptoutils.UnmarshalPEMToPublicKey(raw)
-	fmt.Println("keys.go 61:", pubKey)
 	if err != nil {
 		return nil, errors.Wrap(err, "pem to public key")
 	}
 
+	fmt.Println("pubKey", pubKey)
+	fmt.Println("hashAlgorithm", hashAlgorithm)
 	return signature.LoadVerifier(pubKey, hashAlgorithm)
 }
 
