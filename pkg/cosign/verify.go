@@ -253,6 +253,8 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	sigRef := co.SignatureRef
 	if sigRef == "" {
 		sigs, err = se.Signatures()
+		fmt.Println()
+		fmt.Println(se.Signatures())
 		fmt.Println("\n\ncosign/verify.go 255 se.Signatures()", "se:", se, "result:", sigs)
 		if err != nil {
 			return nil, false, err
