@@ -245,12 +245,14 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 	// TODO(mattmoor): We could implement recursive verification if we just wrapped
 	// most of the logic below here in a call to mutate.Map
 	se, h, err := getSignedEntity(signedImgRef, co.RegistryClientOpts)
+	fmt.Println("cosign/verify.go 247:", se)
 	if err != nil {
 		return nil, false, err
 	}
 
 	var sigs oci.Signatures
 	sigRef := co.SignatureRef
+	fmt.Println("cosign/verify.go 255:", sigRef)
 	if sigRef == "" {
 		sigs, err = se.Signatures()
 		if err != nil {
@@ -258,11 +260,13 @@ func VerifyImageSignatures(ctx context.Context, signedImgRef name.Reference, co 
 		}
 	} else {
 		sigs, err = loadSignatureFromFile(sigRef, signedImgRef, co)
+		fmt.Println("cosign/verify.go 265:", sigs)
 		if err != nil {
 			return nil, false, err
 		}
 	}
 
+	fmt.Println("cosign/verify.go 269: verifySignatures")
 	return verifySignatures(ctx, sigs, h, co)
 }
 
@@ -323,8 +327,7 @@ func verifySignatures(ctx context.Context, sigs oci.Signatures, h v1.Hash, co *C
 	validationErrs := []string{}
 
 	for _, sig := range sl {
-		verified, err := VerifyImageSignature(ctx, sig, h, co) // USED
-		fmt.Println("VerifyImageSignature: ", verified)
+		verified, err := VerifyImageSignature(ctx, sig, h, co)
 		bundleVerified = bundleVerified || verified
 		if err != nil {
 			validationErrs = append(validationErrs, err.Error())

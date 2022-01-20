@@ -46,18 +46,20 @@ func LoadPublicKey(ctx context.Context, keyRef string) (verifier signature.Verif
 func VerifierForKeyRef(ctx context.Context, keyRef string, hashAlgorithm crypto.Hash) (verifier signature.Verifier, err error) {
 	// The key could be plaintext, in a file, at a URL, or in KMS.
 	if kmsKey, err := kms.Get(ctx, keyRef, hashAlgorithm); err == nil {
+		fmt.Println("keys.go 48:", kmsKey)
 		// KMS specified
 		return kmsKey, nil
 	}
 
 	raw, err := blob.LoadFileOrURL(keyRef)
-
+	fmt.Println("keys.go 54:", raw)
 	if err != nil {
 		return nil, err
 	}
 
 	// PEM encoded file.
 	pubKey, err := cryptoutils.UnmarshalPEMToPublicKey(raw)
+	fmt.Println("keys.go 61:", pubKey)
 	if err != nil {
 		return nil, errors.Wrap(err, "pem to public key")
 	}
@@ -170,7 +172,6 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 	}
 
 	if strings.HasPrefix(keyRef, pkcs11key.ReferenceScheme) {
-		fmt.Println("HAS PREFIX")
 		pkcs11UriConfig := pkcs11key.NewPkcs11UriConfig()
 		err := pkcs11UriConfig.Parse(keyRef)
 		if err != nil {
@@ -191,7 +192,6 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 
 		return v, nil
 	} else if strings.HasPrefix(keyRef, gitlab.ReferenceScheme) {
-		fmt.Println("HAS PREFIX 2")
 		split := strings.Split(keyRef, "://")
 
 		if len(split) < 2 {
@@ -209,8 +209,7 @@ func PublicKeyFromKeyRefWithHashAlgo(ctx context.Context, keyRef string, hashAlg
 			return LoadPublicKeyRaw([]byte(pubKey), hashAlgorithm)
 		}
 	}
-	fmt.Println("HAS NO PREFIX")
-	return VerifierForKeyRef(ctx, keyRef, hashAlgorithm)
+	return VerifierForKeyRef(ctx, keyRef, hashAlgorithm) // USED
 }
 
 func PublicKeyPem(key signature.PublicKeyProvider, pkOpts ...signature.PublicKeyOption) ([]byte, error) {
